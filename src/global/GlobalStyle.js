@@ -133,12 +133,27 @@ const Global = css`
     margin: 0;
     border: 0;
     padding: 0;
+
+    --color-palette-0: #06283d;
+    --color-palette-1: #1363df;
+    --color-palette-2: #47b5ff;
+    --color-palette-3: #dff6ff;
+  }
+  body {
+    background-color: var(--color-palette-0);
+  }
+`;
+
+const TestStyle = css`
+  h1 {
+    color: var(--color-palette-3);
   }
 `;
 
 const GlobalStyle = createGlobalStyle`
   ${Reset};
   ${Global};
+  ${TestStyle};
 `;
 
 export default GlobalStyle;
