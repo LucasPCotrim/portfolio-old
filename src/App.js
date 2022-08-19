@@ -1,12 +1,14 @@
 import GlobalStyle from './global/GlobalStyle';
+import InitialLoadingScreen from './components/InitialLoadingScreen/InitialLoadingScreen';
 
 function App() {
   return (
     <>
       <GlobalStyle />
-      <h1>Hello World</h1>
+      <InitialLoadingScreen />
     </>
   );
 }
 
 export default App;
+
