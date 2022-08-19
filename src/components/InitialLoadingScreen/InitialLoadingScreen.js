@@ -4,7 +4,7 @@ export default function InitialLoadingScreen() {
   return (
     <>
       <InitialLoadingScreenStyle>
-        <div className='img-container'>
+        <div className='logo-container'>
           <svg version='1.1' id='svg2' width='410' height='410' viewBox='0 0 410 410'>
             <defs>
               <bxGrid x='0' y='0' width='147.782' height='120.478' />

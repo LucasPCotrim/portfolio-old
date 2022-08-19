@@ -14,16 +14,27 @@ const animateSVG = keyframes`
   }
 `;
 
+const animateLogoContainer = keyframes`
+  0% {
+    transform: scale(0.7);
+  }
+  100% {
+    transform: scale(0.6);
+    opacity: 0;
+  }
+`;
+
 export const InitialLoadingScreenStyle = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
   height: 100vh;
-  .img-container {
+  .logo-container {
     display: flex;
     justify-content: center;
     align-items: center;
     transform: scale(0.7);
+    animation: ${animateLogoContainer} 1s 2s linear forwards;
     svg path {
       stroke-dasharray: 28500;
       stroke-dashoffset: 28500;
