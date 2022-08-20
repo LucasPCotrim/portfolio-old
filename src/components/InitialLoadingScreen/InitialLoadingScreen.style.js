@@ -19,7 +19,7 @@ const animateLogoContainer = keyframes`
     transform: scale(0.7);
   }
   100% {
-    transform: scale(0.6);
+    transform: scale(0.65);
     opacity: 0;
   }
 `;
@@ -39,12 +39,7 @@ export const InitialLoadingScreenStyle = styled.div`
       stroke-dasharray: 28500;
       stroke-dashoffset: 28500;
       stroke-width: 40;
-      animation: ${animateSVG} 4s linear forwards;
-    }
-    svg > g {
-      position: absolute;
-      top: 30px;
-      left: 100px;
+      animation: ${animateSVG} 3.2s linear forwards;
     }
   }
 `;
