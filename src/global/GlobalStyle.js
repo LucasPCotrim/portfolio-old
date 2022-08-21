@@ -140,6 +140,8 @@ const Global = css`
     --color-palette-2: #47b5ff;
     --color-palette-3: #dff6ff;
     --color-menus: #171617;
+    --navbar-size: 80px;
+    --navbar-size-mobile: 60px;
 
     background-color: var(--color-palette-0);
   }

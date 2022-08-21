@@ -35,7 +35,7 @@ const animateLogoContainerSmall = keyframes`
 
 export const InitialLoadingScreenStyle = styled.div`
   width: 100vw;
-  height: 100vh;
+  min-height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -52,7 +52,7 @@ export const LogoContainerStyle = styled.div`
   animation-timing-function: cubic-bezier(1, 0.01, 0.32, 1.05);
   animation-delay: 3s;
   animation-fill-mode: forwards;
-  @media (max-width: 800px) {
+  @media (max-width: 1000px) {
     transform: scale(0.4);
     animation-name: ${animateLogoContainerSmall};
   }
@@ -112,7 +112,7 @@ export const BackgroundDecorationStyle = styled.div`
     left: calc(0% - 0.5 * var(--corner-decoration-size));
   }
 
-  @media (max-width: 800px) {
+  @media (max-width: 1000px) {
     display: none;
   }
 `;
