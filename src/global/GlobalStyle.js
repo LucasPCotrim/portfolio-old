@@ -139,6 +139,8 @@ const Global = css`
     --color-palette-1: #1363df;
     --color-palette-2: #47b5ff;
     --color-palette-3: #dff6ff;
+    --color-menus: #171617;
+
     background-color: var(--color-palette-0);
   }
 `;
