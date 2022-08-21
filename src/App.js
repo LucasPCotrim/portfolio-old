@@ -1,4 +1,5 @@
 import GlobalStyle from './global/GlobalStyle';
+
 import InitialLoadingScreen from './components/InitialLoadingScreen/InitialLoadingScreen';
 
 function App() {
@@ -9,6 +10,4 @@ function App() {
     </>
   );
 }
-
 export default App;
-
