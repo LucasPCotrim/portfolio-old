@@ -1,6 +1,33 @@
 import { HomePageStyle } from './HomePage.style';
 import Typewriter from 'typewriter-effect';
 
+function TypewritterContainer() {
+  return (
+    <Typewriter
+      options={{
+        loop: true,
+      }}
+      onInit={(typewriter) => {
+        typewriter
+          .pauseFor(1500)
+          .typeString('Web Developer')
+          .pauseFor(300)
+          .deleteAll()
+          .typeString('Data Scientist')
+          .pauseFor(300)
+          .deleteAll()
+          .typeString('Mechatronic Engineer')
+          .pauseFor(300)
+          .deleteAll()
+          .typeString('Professor')
+          .pauseFor(300)
+          .deleteAll()
+          .start();
+      }}
+    />
+  );
+}
+
 export default function HomePage() {
   return (
     <>
@@ -8,28 +35,7 @@ export default function HomePage() {
         <div className="title-container">
           <h1>Hi, I'm Lucas</h1>
           <div className="typewritter">
-            <Typewriter
-              options={{
-                loop: true,
-              }}
-              onInit={(typewriter) => {
-                typewriter
-                  .pauseFor(1500)
-                  .typeString('Web Developer')
-                  .pauseFor(300)
-                  .deleteAll()
-                  .typeString('Data Scientist')
-                  .pauseFor(300)
-                  .deleteAll()
-                  .typeString('Mechatronic Engineer')
-                  .pauseFor(300)
-                  .deleteAll()
-                  .typeString('Professor')
-                  .pauseFor(300)
-                  .deleteAll()
-                  .start();
-              }}
-            />
+            <TypewritterContainer />
           </div>
         </div>
       </HomePageStyle>

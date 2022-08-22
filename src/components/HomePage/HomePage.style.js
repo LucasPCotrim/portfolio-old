@@ -17,9 +17,9 @@ export const HomePageStyle = styled(PageStyle)`
     display: inline-block;
     padding-left: 30px;
     padding-top: 200px;
-    width: 100%;
+    width: 80%;
     font-family: 'LeagueSpartan';
-    font-size: 100px;
+    font-size: 80px;
     color: var(--color-palette-3);
     h1 {
       opacity: 0;
@@ -30,6 +30,9 @@ export const HomePageStyle = styled(PageStyle)`
       color: var(--color-palette-2);
       opacity: 0;
       animation: ${animateFadeIn} 0.5s linear 1.5s forwards;
+    }
+    @media (max-width: 1000px) {
+      font-size: 50px;
     }
   }
 `;
