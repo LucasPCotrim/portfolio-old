@@ -1,4 +1,4 @@
-import { createGlobalStyle, css } from 'styled-components';
+import styled, { createGlobalStyle, css } from 'styled-components';
 
 const Reset = css`
   html,
@@ -134,6 +134,11 @@ const Global = css`
     border: 0;
     padding: 0;
   }
+  html,
+  body {
+    max-width: 100%;
+    overflow-x: hidden;
+  }
   body {
     --color-palette-0: #06283d;
     --color-palette-1: #1363df;
@@ -152,6 +157,17 @@ const Global = css`
 const GlobalStyle = createGlobalStyle`
   ${Reset};
   ${Global};
+`;
+
+export const PageStyle = styled.div`
+  z-index: 0;
+  width: 100vw;
+  height: 100vh;
+  margin-left: var(--navbar-size);
+  @media (max-width: 1000px) {
+    margin-left: 0;
+    margin-bottom: var(--navbar-size-mobile);
+  }
 `;
 
 export default GlobalStyle;

@@ -18,6 +18,7 @@ const animateNavBarMobile = keyframes`
 `;
 
 export const NavBarStyle = styled.div`
+  z-index: 1;
   position: fixed;
   left: 0px;
   top: 0px;
@@ -29,7 +30,6 @@ export const NavBarStyle = styled.div`
   animation-name: ${animateNavBar};
   animation-duration: 0.2s;
   animation-timing-function: linear;
-  animation-delay: 4s;
   animation-fill-mode: forwards;
   display: flex;
   flex-direction: column;
@@ -59,7 +59,6 @@ export const NavBarStyle = styled.div`
     transform-origin: bottom;
     transform: scaleY(0);
     animation-name: ${animateNavBarMobile};
-    animation-delay: 3.5s;
     .logo-container {
       img {
         width: 32px;
@@ -82,6 +81,7 @@ export const PagesContainerStyle = styled.nav`
     border-radius: 10px;
     font-size: 30px;
     transition: all 0.5s;
+    cursor: pointer;
     .icon {
       color: var(--icon-color);
       transition: all 1s;

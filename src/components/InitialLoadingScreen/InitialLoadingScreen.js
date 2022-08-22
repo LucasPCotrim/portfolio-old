@@ -3,6 +3,10 @@ import {
   LogoContainerStyle,
   BackgroundDecorationStyle,
 } from './InitialLoadingScreen.style';
+import { useContext, useEffect } from 'react';
+import AppContext from '../../contexts/AppContext';
+
+const AnimationDuration = 4;
 
 function SVGLogo() {
   return (
@@ -42,6 +46,18 @@ function BackgroundDecoration() {
 }
 
 export default function InitialLoadingScreen() {
+  const { state, setState } = useContext(AppContext);
+
+  useEffect(() => {
+    const initialAnimationTimer = setTimeout(
+      () => setState({ ...state, page: 'HomePage' }),
+      AnimationDuration * 1000 + 100
+    );
+    return () => {
+      clearTimeout(initialAnimationTimer);
+    };
+  }, []);
+
   return (
     <>
       <InitialLoadingScreenStyle>

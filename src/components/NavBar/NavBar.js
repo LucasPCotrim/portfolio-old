@@ -11,7 +11,6 @@ import {
   faSuitcase,
   faEnvelope,
 } from '@fortawesome/free-solid-svg-icons';
-import { NavLink } from 'react-router-dom';
 import logoNavBar from '../../assets/imgs/logoNavBar.png';
 import useMobileCheck from '../../hooks/useMobileCheck';
 
@@ -26,26 +25,18 @@ function LogoSideBarContainer() {
 function PagesSideBarContainer() {
   return (
     <PagesContainerStyle iconSize={'30px'}>
-      <NavLink exact="true" to="/">
-        <div className="icon-button">
-          <FontAwesomeIcon className="icon" icon={faHome} />
-        </div>
-      </NavLink>
-      <NavLink exact="true" to="/">
-        <div className="icon-button">
-          <FontAwesomeIcon className="icon" icon={faUser} />
-        </div>
-      </NavLink>
-      <NavLink exact="true" to="/">
-        <div className="icon-button">
-          <FontAwesomeIcon className="icon" icon={faSuitcase} />
-        </div>
-      </NavLink>
-      <NavLink exact="true" to="/">
-        <div className="icon-button">
-          <FontAwesomeIcon className="icon" icon={faEnvelope} />
-        </div>
-      </NavLink>
+      <div className="icon-button">
+        <FontAwesomeIcon className="icon" icon={faHome} />
+      </div>
+      <div className="icon-button">
+        <FontAwesomeIcon className="icon" icon={faUser} />
+      </div>
+      <div className="icon-button">
+        <FontAwesomeIcon className="icon" icon={faSuitcase} />
+      </div>
+      <div className="icon-button">
+        <FontAwesomeIcon className="icon" icon={faEnvelope} />
+      </div>
     </PagesContainerStyle>
   );
 }
