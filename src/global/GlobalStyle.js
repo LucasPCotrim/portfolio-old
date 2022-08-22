@@ -140,6 +140,8 @@ const Global = css`
     --color-palette-2: #47b5ff;
     --color-palette-3: #dff6ff;
     --color-menus: #171617;
+    --color-menus-alt: #0f0f0f;
+    --icon-color: #4d4d4e;
     --navbar-size: 80px;
     --navbar-size-mobile: 60px;
 
