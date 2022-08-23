@@ -9,7 +9,7 @@ function TypewritterContainer() {
       }}
       onInit={(typewriter) => {
         typewriter
-          .pauseFor(1500)
+          .pauseFor(1300)
           .typeString('Web Developer')
           .pauseFor(300)
           .deleteAll()
@@ -33,7 +33,7 @@ export default function HomePage() {
     <>
       <HomePageStyle>
         <div className="title-container">
-          <h1>Hi, I'm Lucas</h1>
+          <h1>Hello World, I'm Lucas</h1>
           <div className="typewritter">
             <TypewritterContainer />
           </div>

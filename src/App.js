@@ -24,6 +24,7 @@ function App() {
             <NavBar />
             <Background />
             <HomePage />
+            <HomePage />
           </>
         )}
       </AppContext.Provider>
