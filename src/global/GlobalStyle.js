@@ -140,7 +140,7 @@ const Global = css`
     overflow-x: hidden;
   }
   body {
-    --color-palette-0: #06283d;
+    --color-palette-0: #01010e;
     --color-palette-1: #1363df;
     --color-palette-2: #47b5ff;
     --color-palette-3: #dff6ff;
