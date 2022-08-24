@@ -16,6 +16,7 @@ import {
 } from '../../helpers/BackgroundHelperFunctions';
 
 const InitialCameraDistance = 200;
+const parallaxIntensity = 0.1;
 
 function Earth({ position, FinalDistance }) {
   let viewportWidth = useCurrentWidth();
@@ -45,12 +46,12 @@ function Earth({ position, FinalDistance }) {
       const handleMouseMove = (event) => {
         cursor.x = event.clientX / window.innerWidth;
         cursor.y = event.clientY / window.innerHeight;
-        const parallaxX = -cursor.x;
-        const parallaxY = cursor.y;
-        earthRef.current.position.x = 0.3 * parallaxX;
-        earthRef.current.position.y = 0.3 * parallaxY;
-        cloudsRef.current.position.x = 0.3 * parallaxX;
-        cloudsRef.current.position.y = 0.3 * parallaxY;
+        const parallaxX = -parallaxIntensity * cursor.x;
+        const parallaxY = parallaxIntensity * cursor.y;
+        earthRef.current.position.x = parallaxX;
+        earthRef.current.position.y = parallaxY;
+        cloudsRef.current.position.x = parallaxX;
+        cloudsRef.current.position.y = parallaxY;
       };
       window.addEventListener('mousemove', handleMouseMove);
       return () => {
@@ -105,6 +106,94 @@ function Sun() {
   );
 }
 
+function Galaxy({
+  position,
+  count,
+  randomness,
+  spin,
+  galaxyRadius,
+  branches,
+  randomnessPower,
+  insideColor,
+  outsideColor,
+}) {
+  const centerX = position[0];
+  const centerY = position[1];
+  const centerZ = position[2];
+
+  let [positions, colors] = useMemo(() => {
+    const positions = new Float32Array(count * 3);
+    const colors = new Float32Array(count * 3);
+    for (let i = 0; i < count; i++) {
+      const i3 = i * 3;
+      const radius = Math.random() * galaxyRadius;
+      const spinAngle = radius * spin;
+      const branchAngle = ((i % branches) / branches) * Math.PI * 2;
+      const randomX =
+        Math.pow(Math.random(), randomnessPower) *
+        (Math.random() < 0.5 ? 1 : -1) *
+        randomness *
+        radius;
+      const randomY =
+        Math.pow(Math.random(), randomnessPower) *
+        (Math.random() < 0.5 ? 1 : -1) *
+        randomness *
+        radius;
+      const randomZ =
+        Math.pow(Math.random(), randomnessPower) *
+        (Math.random() < 0.5 ? 1 : -1) *
+        randomness *
+        radius;
+
+      positions[i3] =
+        centerX + Math.cos(branchAngle + spinAngle) * radius + randomX;
+      positions[i3 + 1] = centerY + randomY;
+      positions[i3 + 2] =
+        centerZ + Math.sin(branchAngle + spinAngle) * radius + randomZ;
+
+      const colorInside = new THREE.Color(insideColor);
+      const colorOutside = new THREE.Color(outsideColor);
+      const mixedColor = colorInside.clone();
+      mixedColor.lerp(colorOutside, radius / galaxyRadius);
+
+      colors[i3] = mixedColor.r;
+      colors[i3 + 1] = mixedColor.g;
+      colors[i3 + 2] = mixedColor.b;
+    }
+    return [new Float32Array(positions), new Float32Array(colors)];
+  }, [count]);
+  return (
+    <>
+      <points>
+        <bufferGeometry attach="geometry">
+          <bufferAttribute
+            attach="attributes-position"
+            count={count}
+            array={positions}
+            itemSize={3}
+            usage={THREE.StaticDrawUsage}
+          />
+          <bufferAttribute
+            attach="attributes-color"
+            count={count}
+            array={colors}
+            itemSize={3}
+            usage={THREE.StaticDrawUsage}
+          />
+        </bufferGeometry>
+        <pointsMaterial
+          attach="material"
+          vertexColors={true}
+          size={0.005}
+          sizeAttenuation={true}
+          depthWrite={false}
+          blending={THREE.AdditiveBlending}
+        />
+      </points>
+    </>
+  );
+}
+
 function Scene() {
   let scrollY = window.scrollY;
   const { camera } = useThree();
@@ -130,6 +219,17 @@ function Scene() {
       <Earth
         position={[0, 0, 0]}
         FinalDistance={getCameraDistance(viewportWidth)}
+      />
+      <Galaxy
+        position={[0, -5, 0]}
+        count={20000}
+        randomness={0.2}
+        spin={1}
+        galaxyRadius={5}
+        branches={3}
+        randomnessPower={3}
+        insideColor={'#ff6030'}
+        outsideColor={'#1b3984'}
       />
     </>
   );
