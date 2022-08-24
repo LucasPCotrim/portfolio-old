@@ -18,6 +18,7 @@ import {
 const InitialCameraDistance = 200;
 
 function Earth({ position, FinalDistance }) {
+  let viewportWidth = useCurrentWidth();
   const [colorMapDay, colorMapNight, specularMap, cloudsMap] = useLoader(
     TextureLoader,
     [EarthDayMap, EarthNightMap, EarthSpecularMap, EarthCloudsMap]
@@ -40,20 +41,22 @@ function Earth({ position, FinalDistance }) {
   );
   const cursor = { x: 0, y: 0 };
   useEffect(() => {
-    const handleMouseMove = (event) => {
-      cursor.x = event.clientX / window.innerWidth;
-      cursor.y = event.clientY / window.innerHeight;
-      const parallaxX = -cursor.x;
-      const parallaxY = cursor.y;
-      earthRef.current.position.x = 0.3 * parallaxX;
-      earthRef.current.position.y = 0.3 * parallaxY;
-      cloudsRef.current.position.x = 0.3 * parallaxX;
-      cloudsRef.current.position.y = 0.3 * parallaxY;
-    };
-    window.addEventListener('mousemove', handleMouseMove);
-    return () => {
-      window.removeEventListener('mousemove', handleMouseMove);
-    };
+    if (viewportWidth > 1000) {
+      const handleMouseMove = (event) => {
+        cursor.x = event.clientX / window.innerWidth;
+        cursor.y = event.clientY / window.innerHeight;
+        const parallaxX = -cursor.x;
+        const parallaxY = cursor.y;
+        earthRef.current.position.x = 0.3 * parallaxX;
+        earthRef.current.position.y = 0.3 * parallaxY;
+        cloudsRef.current.position.x = 0.3 * parallaxX;
+        cloudsRef.current.position.y = 0.3 * parallaxY;
+      };
+      window.addEventListener('mousemove', handleMouseMove);
+      return () => {
+        window.removeEventListener('mousemove', handleMouseMove);
+      };
+    }
   }, []);
 
   let timeBefore = 0;
@@ -105,6 +108,7 @@ function Sun() {
 function Scene() {
   let scrollY = window.scrollY;
   const { camera } = useThree();
+  let viewportWidth = useCurrentWidth();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -117,7 +121,6 @@ function Scene() {
     };
   }, []);
 
-  let viewportWidth = useCurrentWidth();
   const nStars = viewportWidth < 1000 ? 2000 : 5000;
   return (
     <>
