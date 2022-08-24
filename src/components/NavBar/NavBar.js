@@ -49,7 +49,12 @@ function PagesNavBarContainer({ setSelectedPage }) {
       >
         <FontAwesomeIcon className="icon" icon={faSuitcase} />
       </div>
-      <div className="icon-button">
+      <div
+        className="icon-button"
+        onClick={() => {
+          setSelectedPage(3);
+        }}
+      >
         <FontAwesomeIcon className="icon" icon={faEnvelope} />
       </div>
     </PagesContainerStyle>

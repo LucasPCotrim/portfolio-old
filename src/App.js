@@ -3,6 +3,7 @@ import NavBar from './components/NavBar/NavBar';
 import HomePage from './components/HomePage/HomePage';
 import AboutPage from './components/AboutPage/AboutPage';
 import ProjectsPage from './components/ProjectsPage/ProjectsPage';
+import ContactPage from './components/ContactPage/ContactPage';
 import Background from './components/Background/Background';
 import AppContext from './contexts/AppContext';
 import { useState, useRef, useEffect } from 'react';
@@ -23,7 +24,8 @@ export default function App() {
   const homePageRef = useRef();
   const AboutPageRef = useRef();
   const ProjectsPageRef = useRef();
-  const pageRefs = [homePageRef, AboutPageRef, ProjectsPageRef];
+  const ContactPageRef = useRef();
+  const pageRefs = [homePageRef, AboutPageRef, ProjectsPageRef, ContactPageRef];
 
   return (
     <>
@@ -40,6 +42,7 @@ export default function App() {
             <HomePage pageRef={homePageRef} />
             <AboutPage pageRef={AboutPageRef} />
             <ProjectsPage pageRef={ProjectsPageRef} />
+            <ContactPage pageRef={ContactPageRef} />
           </>
         )}
       </AppContext.Provider>
