@@ -10,14 +10,14 @@ import EarthSpecularMap from '../../assets/textures/8k_earth_specular_map.jpg';
 import EarthCloudsMap from '../../assets/textures/8k_earth_clouds.jpg';
 import { vs, fs } from '../../assets/shaders/DayNightShaders';
 import useCurrentWidth from '../../hooks/useCurrentWidth';
+import {
+  sigmoid,
+  getCameraDistance,
+} from '../../helpers/BackgroundHelperFunctions';
 
 const InitialCameraDistance = 200;
 
-function sigmoid(z) {
-  return 1 / (1 + Math.exp(-z));
-}
-
-function Earth({ FinalDistance }) {
+function Earth({ position, FinalDistance }) {
   const [colorMapDay, colorMapNight, specularMap, cloudsMap] = useLoader(
     TextureLoader,
     [EarthDayMap, EarthNightMap, EarthSpecularMap, EarthCloudsMap]
@@ -60,7 +60,7 @@ function Earth({ FinalDistance }) {
 
   return (
     <>
-      <mesh ref={cloudsRef}>
+      <mesh ref={cloudsRef} position={position}>
         <sphereGeometry args={[1.005, 64, 64]} />
         <meshPhongMaterial
           map={cloudsMap}
@@ -70,7 +70,7 @@ function Earth({ FinalDistance }) {
           dise={THREE.DoubleSide}
         />
       </mesh>
-      <mesh ref={earthRef}>
+      <mesh ref={earthRef} position={position}>
         <sphereGeometry args={[1, 64, 64]} />
         <meshPhongMaterial specularMap={specularMap} />
         <shaderMaterial ref={shaderRef} attach="material" {...shaderData} />
@@ -86,7 +86,6 @@ function Sun() {
 }
 
 function Scene() {
-  let viewportWidth = useCurrentWidth();
   let scrollY = window.scrollY;
   useEffect(() => {
     const handleScroll = () => {
@@ -99,15 +98,20 @@ function Scene() {
   }, []);
 
   useFrame(({ camera }) => {
-    camera.position.y = 3 * (-scrollY / window.innerHeight);
+    camera.position.y = 4 * (-scrollY / window.innerHeight);
   });
 
+  let viewportWidth = useCurrentWidth();
+  const nStars = viewportWidth < 1000 ? 2000 : 5000;
   return (
     <>
       <ambientLight intensity={0.03} />
       <Sun />
-      <Stars radius={300} depth={60} count={5000} factor={4} saturation={0} />
-      <Earth FinalDistance={10.5084746 - 0.002542373 * viewportWidth} />
+      <Stars radius={200} depth={60} count={nStars} factor={4} saturation={0} />
+      <Earth
+        position={[0, 0, 0]}
+        FinalDistance={getCameraDistance(viewportWidth)}
+      />
     </>
   );
 }
