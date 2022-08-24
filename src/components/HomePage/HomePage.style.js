@@ -32,5 +32,8 @@ export const HomePageStyle = styled(PageStyle)`
       opacity: 0;
       animation: ${animateFadeIn} 0.5s linear 1.5s forwards;
     }
+    @media (max-width: 1000px) {
+      padding-top: 130px;
+    }
   }
 `;
