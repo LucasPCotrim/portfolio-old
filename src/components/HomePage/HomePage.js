@@ -28,10 +28,11 @@ function TypewritterContainer() {
   );
 }
 
-export default function HomePage() {
+export default function HomePage({ pageRef }) {
+  console.log('HomePageRef = ', pageRef);
   return (
     <>
-      <HomePageStyle>
+      <HomePageStyle ref={pageRef}>
         <div className="title-container">
           <h1>Hello World, I'm Lucas</h1>
           <div className="typewritter">

@@ -1,6 +1,6 @@
 import { useRef, useMemo, useEffect } from 'react';
 import { BackgroundStyle } from './Background.style';
-import { Canvas, useFrame, useLoader } from '@react-three/fiber';
+import { Canvas, useFrame, useLoader, useThree } from '@react-three/fiber';
 import { Stars } from '@react-three/drei';
 import { TextureLoader } from 'three/src/loaders/TextureLoader';
 import * as THREE from 'three';
@@ -87,9 +87,12 @@ function Sun() {
 
 function Scene() {
   let scrollY = window.scrollY;
+  const { camera } = useThree();
   useEffect(() => {
     const handleScroll = () => {
       scrollY = window.scrollY;
+      console.log(scrollY);
+      camera.position.y = 4 * (-scrollY / window.innerHeight);
     };
     window.addEventListener('scroll', handleScroll);
     return () => {
@@ -97,9 +100,9 @@ function Scene() {
     };
   }, []);
 
-  useFrame(({ camera }) => {
-    camera.position.y = 4 * (-scrollY / window.innerHeight);
-  });
+  // useFrame(({ camera }) => {
+  //   camera.position.y = 4 * (-scrollY / window.innerHeight);
+  // });
 
   let viewportWidth = useCurrentWidth();
   const nStars = viewportWidth < 1000 ? 2000 : 5000;

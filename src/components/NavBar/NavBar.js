@@ -22,16 +22,31 @@ function LogoNavBarContainer() {
   );
 }
 
-function PagesNavBarContainer() {
+function PagesNavBarContainer({ setSelectedPage }) {
   return (
     <PagesContainerStyle iconSize={'30px'}>
-      <div className="icon-button">
+      <div
+        className="icon-button"
+        onClick={() => {
+          setSelectedPage(0);
+        }}
+      >
         <FontAwesomeIcon className="icon" icon={faHome} />
       </div>
-      <div className="icon-button">
+      <div
+        className="icon-button"
+        onClick={() => {
+          setSelectedPage(1);
+        }}
+      >
         <FontAwesomeIcon className="icon" icon={faUser} />
       </div>
-      <div className="icon-button">
+      <div
+        className="icon-button"
+        onClick={() => {
+          setSelectedPage(2);
+        }}
+      >
         <FontAwesomeIcon className="icon" icon={faSuitcase} />
       </div>
       <div className="icon-button">
@@ -52,19 +67,19 @@ function ExternalLinksNavBarContainer() {
   );
 }
 
-export default function NavBar() {
+export default function NavBar({ setSelectedPage }) {
   const isMobile = useMobileCheck(1000);
 
   return (
     <NavBarStyle>
       {isMobile ? (
         <>
-          <PagesNavBarContainer />
+          <PagesNavBarContainer setSelectedPage={setSelectedPage} />
         </>
       ) : (
         <>
           <LogoNavBarContainer />
-          <PagesNavBarContainer />
+          <PagesNavBarContainer setSelectedPage={setSelectedPage} />
           <ExternalLinksNavBarContainer />
         </>
       )}
