@@ -1,7 +1,6 @@
 import { ProjectsPageStyle } from './ProjectsPage.style';
 
 export default function ProjectsPage({ pageRef }) {
-  console.log('ProjectsPageRef = ', pageRef);
   return (
     <>
       <ProjectsPageStyle ref={pageRef}>

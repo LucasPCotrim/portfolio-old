@@ -29,7 +29,6 @@ function TypewritterContainer() {
 }
 
 export default function HomePage({ pageRef }) {
-  console.log('HomePageRef = ', pageRef);
   return (
     <>
       <HomePageStyle ref={pageRef}>
