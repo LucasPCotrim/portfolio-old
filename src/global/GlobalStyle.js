@@ -163,10 +163,10 @@ export const PageStyle = styled.div`
   z-index: 0;
   width: 100vw;
   height: 100vh;
-  margin-left: var(--navbar-size);
+  padding-left: var(--navbar-size);
   @media (max-width: 1000px) {
-    margin-left: 0;
-    margin-bottom: var(--navbar-size-mobile);
+    padding-left: 0;
+    padding-bottom: var(--navbar-size-mobile);
   }
 `;
 
