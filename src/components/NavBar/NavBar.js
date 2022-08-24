@@ -14,7 +14,7 @@ import {
 import logoNavBar from '../../assets/imgs/logoNavBar.png';
 import useMobileCheck from '../../hooks/useMobileCheck';
 
-function LogoSideBarContainer() {
+function LogoNavBarContainer() {
   return (
     <div className="logo-container">
       <img src={logoNavBar} alt="logoNavBar" />
@@ -22,7 +22,7 @@ function LogoSideBarContainer() {
   );
 }
 
-function PagesSideBarContainer() {
+function PagesNavBarContainer() {
   return (
     <PagesContainerStyle iconSize={'30px'}>
       <div className="icon-button">
@@ -41,7 +41,7 @@ function PagesSideBarContainer() {
   );
 }
 
-function ExternalLinksSidebarContainer() {
+function ExternalLinksNavBarContainer() {
   return (
     <>
       <ExteralLinksContainerStyle>
@@ -59,13 +59,13 @@ export default function NavBar() {
     <NavBarStyle>
       {isMobile ? (
         <>
-          <PagesSideBarContainer />
+          <PagesNavBarContainer />
         </>
       ) : (
         <>
-          <LogoSideBarContainer />
-          <PagesSideBarContainer />
-          <ExternalLinksSidebarContainer />
+          <LogoNavBarContainer />
+          <PagesNavBarContainer />
+          <ExternalLinksNavBarContainer />
         </>
       )}
     </NavBarStyle>

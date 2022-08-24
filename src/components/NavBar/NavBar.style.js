@@ -96,6 +96,11 @@ export const PagesContainerStyle = styled.nav`
   }
   @media (max-width: 1000px) {
     flex-direction: row;
+    .icon-button {
+      width: 50px;
+      height: 50px;
+      font-size: 25px;
+    }
   }
 `;
 
