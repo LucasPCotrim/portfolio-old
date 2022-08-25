@@ -15,12 +15,10 @@ const animateFadeIn = keyframes`
 export const HomePageStyle = styled(PageStyle)`
   .title-container {
     display: inline-block;
-    padding-left: 40px;
-    padding-top: 200px;
+    margin-left: 40px;
+    margin-top: 200px;
     width: 80%;
-    font-family: 'LeagueSpartan';
-    font-size: calc(0.01582278 * 100vw + 26.835444px);
-    color: var(--color-palette-3);
+    color: var(--color-title);
     pointer-events: none;
     h1 {
       opacity: 0;
@@ -33,7 +31,7 @@ export const HomePageStyle = styled(PageStyle)`
       animation: ${animateFadeIn} 0.5s linear 1.5s forwards;
     }
     @media (max-width: 1000px) {
-      padding-top: 130px;
+      margin-top: 130px;
     }
   }
 `;

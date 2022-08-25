@@ -10,6 +10,7 @@ const animateFadeIn = keyframes`
 `;
 
 export const BackgroundStyle = styled.div`
+  z-index: -1;
   position: fixed;
   top: 0;
   bottom: 0;

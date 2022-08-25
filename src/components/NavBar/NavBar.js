@@ -24,7 +24,7 @@ function LogoNavBarContainer() {
 
 function PagesNavBarContainer({ setSelectedPage }) {
   return (
-    <PagesContainerStyle iconSize={'30px'}>
+    <PagesContainerStyle>
       <div
         className="icon-button"
         onClick={() => {

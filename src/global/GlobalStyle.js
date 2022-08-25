@@ -149,6 +149,12 @@ const Global = css`
     --icon-color: #4d4d4e;
     --navbar-size: 80px;
     --navbar-size-mobile: 60px;
+    --font-size-titles: calc(0.01582278 * 100vw + 26.835444px);
+    --color-title: var(--color-palette-3);
+    --font-size-subtitles: calc(0.7 * var(--font-size-titles));
+    --color-subtitles: var(--color-palette-3);
+    --font-size-body: calc(0.5 * var(--font-size-titles));
+    --color-body: var(--color-palette-2);
 
     background-color: var(--color-palette-0);
   }
@@ -160,10 +166,12 @@ const GlobalStyle = createGlobalStyle`
 `;
 
 export const PageStyle = styled.div`
-  z-index: 0;
+  z-index: 1;
   width: 100vw;
   height: 100vh;
   padding-left: var(--navbar-size);
+  font-family: 'LeagueSpartan';
+  font-size: var(--font-size-titles);
   @media (max-width: 1000px) {
     padding-left: 0;
     padding-bottom: var(--navbar-size-mobile);

@@ -18,7 +18,7 @@ const animateNavBarMobile = keyframes`
 `;
 
 export const NavBarStyle = styled.div`
-  z-index: 1;
+  z-index: 2;
   position: fixed;
   left: 0px;
   top: 0px;
@@ -89,7 +89,7 @@ export const PagesContainerStyle = styled.nav`
     &:hover {
       background-color: var(--color-menus-alt);
       & .icon {
-        color: var(--color-palette-3);
+        color: var(--color-palette-1);
         transform: scale(1.2);
       }
     }
