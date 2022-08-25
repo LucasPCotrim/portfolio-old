@@ -10,15 +10,11 @@ import EarthSpecularMap from '../../assets/textures/8k_earth_specular_map.jpg';
 import EarthCloudsMap from '../../assets/textures/8k_earth_clouds.jpg';
 import { vs, fs } from '../../assets/shaders/DayNightShaders';
 import useCurrentWidth from '../../hooks/useCurrentWidth';
-import {
-  sigmoid,
-  getCameraDistance,
-} from '../../helpers/BackgroundHelperFunctions';
+import { getCameraDistance } from '../../helpers/BackgroundHelperFunctions';
 
-const InitialCameraDistance = 200;
 const parallaxIntensity = 0.1;
 
-function Earth({ position, FinalDistance }) {
+function Earth({ position }) {
   let viewportWidth = useCurrentWidth();
   const [colorMapDay, colorMapNight, specularMap, cloudsMap] = useLoader(
     TextureLoader,
@@ -61,7 +57,7 @@ function Earth({ position, FinalDistance }) {
   }, []);
 
   let timeBefore = 0;
-  useFrame(({ clock, camera }) => {
+  useFrame(({ clock }) => {
     const elapsedTime = clock.getElapsedTime();
     const deltaTime = elapsedTime - timeBefore;
 
@@ -69,13 +65,6 @@ function Earth({ position, FinalDistance }) {
     earthRef.current.rotation.y += 0.2 * deltaTime;
     cloudsRef.current.rotation.y += 0.2 * deltaTime;
 
-    // Zoom animation
-    const r =
-      FinalDistance +
-      InitialCameraDistance * (1 - (2 * sigmoid(elapsedTime) - 1));
-    if (r > FinalDistance) {
-      camera.position.z = r;
-    }
     timeBefore = elapsedTime;
   });
 
@@ -108,6 +97,7 @@ function Sun() {
 
 function Galaxy({
   position,
+  rotation,
   count,
   randomness,
   spin,
@@ -117,9 +107,11 @@ function Galaxy({
   insideColor,
   outsideColor,
 }) {
-  const centerX = position[0];
-  const centerY = position[1];
-  const centerZ = position[2];
+  const galaxyRef = useRef();
+
+  const centerX = 0;
+  const centerY = 0;
+  const centerZ = 0;
 
   let [positions, colors] = useMemo(() => {
     const positions = new Float32Array(count * 3);
@@ -162,34 +154,47 @@ function Galaxy({
     }
     return [new Float32Array(positions), new Float32Array(colors)];
   }, [count]);
+
+  let timeBefore = 0;
+  useFrame(({ clock }) => {
+    const elapsedTime = clock.getElapsedTime();
+    const deltaTime = elapsedTime - timeBefore;
+
+    // Galaxy Rotation
+    galaxyRef.current.rotation.y += 0.02 * deltaTime;
+    timeBefore = elapsedTime;
+  });
+
   return (
     <>
-      <points>
-        <bufferGeometry attach="geometry">
-          <bufferAttribute
-            attach="attributes-position"
-            count={count}
-            array={positions}
-            itemSize={3}
-            usage={THREE.StaticDrawUsage}
+      <group position={position} rotation={rotation}>
+        <points ref={galaxyRef}>
+          <bufferGeometry attach="geometry">
+            <bufferAttribute
+              attach="attributes-position"
+              count={count}
+              array={positions}
+              itemSize={3}
+              usage={THREE.StaticDrawUsage}
+            />
+            <bufferAttribute
+              attach="attributes-color"
+              count={count}
+              array={colors}
+              itemSize={3}
+              usage={THREE.StaticDrawUsage}
+            />
+          </bufferGeometry>
+          <pointsMaterial
+            attach="material"
+            vertexColors={true}
+            size={0.006}
+            sizeAttenuation={true}
+            depthWrite={false}
+            blending={THREE.AdditiveBlending}
           />
-          <bufferAttribute
-            attach="attributes-color"
-            count={count}
-            array={colors}
-            itemSize={3}
-            usage={THREE.StaticDrawUsage}
-          />
-        </bufferGeometry>
-        <pointsMaterial
-          attach="material"
-          vertexColors={true}
-          size={0.005}
-          sizeAttenuation={true}
-          depthWrite={false}
-          blending={THREE.AdditiveBlending}
-        />
-      </points>
+        </points>
+      </group>
     </>
   );
 }
@@ -198,11 +203,13 @@ function Scene() {
   let scrollY = window.scrollY;
   const { camera } = useThree();
   let viewportWidth = useCurrentWidth();
+  const FinalDistance = getCameraDistance(viewportWidth);
 
   useEffect(() => {
     const handleScroll = () => {
       scrollY = window.scrollY;
       camera.position.y = 4 * (-scrollY / window.innerHeight);
+      camera.position.z = FinalDistance + 50 * (scrollY / window.innerHeight);
     };
     window.addEventListener('scroll', handleScroll);
     return () => {
@@ -210,19 +217,29 @@ function Scene() {
     };
   }, []);
 
+  // useFrame(({ clock, camera }) => {
+  //   const elapsedTime = clock.getElapsedTime();
+  //   // Zoom animation
+  //   const r =
+  //     FinalDistance +
+  //     InitialCameraDistance * (1 - (2 * sigmoid(elapsedTime) - 1));
+  //   if (r > FinalDistance) {
+  //     camera.position.z = r;
+  //   }
+  // });
+
   const nStars = viewportWidth < 1000 ? 2000 : 5000;
+  const nStarsGalaxy = viewportWidth < 1000 ? 8000 : 15000;
   return (
     <>
       <ambientLight intensity={0.03} />
       <Sun />
       <Stars radius={200} depth={60} count={nStars} factor={4} saturation={0} />
-      <Earth
-        position={[0, 0, 0]}
-        FinalDistance={getCameraDistance(viewportWidth)}
-      />
+      <Earth position={[0, 0, 0]} />
       <Galaxy
-        position={[0, -5, 0]}
-        count={20000}
+        position={[2, -5, 50]}
+        rotation={[0.2, 0, Math.PI * 0.25]}
+        count={nStarsGalaxy}
         randomness={0.2}
         spin={1}
         galaxyRadius={5}
@@ -236,13 +253,15 @@ function Scene() {
 }
 
 export default function Background() {
+  let viewportWidth = useCurrentWidth();
+  const FinalDistance = getCameraDistance(viewportWidth);
   return (
     <BackgroundStyle>
       <Canvas
         onCreated={({ camera }) => {
           camera.fov = 45;
           camera.far = 1200;
-          camera.position.set(0, 0, InitialCameraDistance);
+          camera.position.set(0, 0, FinalDistance);
           camera.lookAt(0, 0, -500);
           camera.updateProjectionMatrix();
         }}
