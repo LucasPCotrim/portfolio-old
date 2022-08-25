@@ -48,7 +48,11 @@ export const IconStyle = styled.div`
   justify-content: center;
   align-items: center;
   .icon {
-    font-size: var(--font-size-title);
+    font-size: var(--font-size-titles);
     color: ${(props) => props.color};
+  }
+  img {
+    width: var(--font-size-titles);
+    height: var(--font-size-titles);
   }
 `;
