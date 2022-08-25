@@ -4,14 +4,51 @@ import { PageStyle } from '../../global/GlobalStyle';
 export const AboutPageStyle = styled(PageStyle)`
   .title-container {
     display: inline-block;
-    padding-left: 40px;
-    padding-top: 200px;
+    margin-left: 40px;
+    margin-top: 200px;
     width: 80%;
-    font-family: 'LeagueSpartan';
-    font-size: calc(0.01582278 * 100vw + 26.835444px);
-    color: var(--color-palette-3);
-    @media (max-width: 1000px) {
-      padding-top: 130px;
+    h1 {
+      color: var(--color-title);
     }
+    @media (max-width: 1000px) {
+      margin-top: 130px;
+    }
+  }
+`;
+
+export const AboutSectionStyle = styled.section`
+  width: 50%;
+  margin-top: 40px;
+  margin-left: 40px;
+  font-size: var(--font-size-body);
+  line-height: calc(1.5 * var(--font-size-body));
+  color: var(--color-body);
+`;
+
+export const SkillsSectionStyle = styled.section`
+  width: 70%;
+  margin-top: 50px;
+  margin-left: 40px;
+  h1 {
+    color: var(--color-subtitles);
+    font-size: var(--font-size-subtitles);
+  }
+  .skills-container {
+    margin-top: 20px;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 20px;
+  }
+`;
+
+export const IconStyle = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  .icon {
+    font-size: var(--font-size-title);
+    color: ${(props) => props.color};
   }
 `;
