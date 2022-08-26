@@ -8,12 +8,7 @@
       "type": "image/x-icon"
     },
     {
-      "src": "logoLC192.png",
-      "type": "image/png",
-      "sizes": "192x192"
-    },
-    {
-      "src": "logoLC512.png",
+      "src": "LogoLC512.png",
       "type": "image/png",
       "sizes": "512x512"
     }
