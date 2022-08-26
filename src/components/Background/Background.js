@@ -232,7 +232,7 @@ function AsteroidBelt({ position, rotation, radius, count }) {
     const deltaTime = elapsedTime - timeBefore;
 
     // Asteroid Belt Rotation
-    asteroidsRef.current.rotation.y += 0.2 * deltaTime;
+    asteroidsRef.current.rotation.y += 0.1 * deltaTime;
 
     // Individual Asteroid Rotation
     asteroidsRef.current.children.forEach((mesh, i) => {
