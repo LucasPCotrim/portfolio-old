@@ -1,13 +1,14 @@
 import { useRef, useMemo, useEffect } from 'react';
 import { BackgroundStyle } from './Background.style';
 import { Canvas, useFrame, useLoader, useThree } from '@react-three/fiber';
-import { Stars } from '@react-three/drei';
+import { Stars, Sphere, MeshDistortMaterial } from '@react-three/drei';
 import { TextureLoader } from 'three/src/loaders/TextureLoader';
 import * as THREE from 'three';
 import EarthDayMap from '../../assets/textures/8k_earth_daymap.jpg';
 import EarthNightMap from '../../assets/textures/8k_earth_nightmap.jpg';
 import EarthSpecularMap from '../../assets/textures/8k_earth_specular_map.jpg';
 import EarthCloudsMap from '../../assets/textures/8k_earth_clouds.jpg';
+import AsteroidMap from '../../assets/textures/asteroid_texture.jpg';
 import { vs, fs } from '../../assets/shaders/DayNightShaders';
 import useCurrentWidth from '../../hooks/useCurrentWidth';
 import { getCameraDistance } from '../../helpers/BackgroundHelperFunctions';
@@ -20,6 +21,7 @@ function Earth({ position }) {
     TextureLoader,
     [EarthDayMap, EarthNightMap, EarthSpecularMap, EarthCloudsMap]
   );
+
   const earthRef = useRef();
   const cloudsRef = useRef();
   const shaderRef = useRef();
@@ -98,6 +100,7 @@ function Sun() {
 function Galaxy({
   position,
   rotation,
+  rotationSpeed,
   count,
   randomness,
   spin,
@@ -108,10 +111,6 @@ function Galaxy({
   outsideColor,
 }) {
   const galaxyRef = useRef();
-
-  const centerX = 0;
-  const centerY = 0;
-  const centerZ = 0;
 
   let [positions, colors] = useMemo(() => {
     const positions = new Float32Array(count * 3);
@@ -137,11 +136,9 @@ function Galaxy({
         randomness *
         radius;
 
-      positions[i3] =
-        centerX + Math.cos(branchAngle + spinAngle) * radius + randomX;
-      positions[i3 + 1] = centerY + randomY;
-      positions[i3 + 2] =
-        centerZ + Math.sin(branchAngle + spinAngle) * radius + randomZ;
+      positions[i3] = Math.cos(branchAngle + spinAngle) * radius + randomX;
+      positions[i3 + 1] = randomY;
+      positions[i3 + 2] = Math.sin(branchAngle + spinAngle) * radius + randomZ;
 
       const colorInside = new THREE.Color(insideColor);
       const colorOutside = new THREE.Color(outsideColor);
@@ -161,7 +158,7 @@ function Galaxy({
     const deltaTime = elapsedTime - timeBefore;
 
     // Galaxy Rotation
-    galaxyRef.current.rotation.y += 0.02 * deltaTime;
+    galaxyRef.current.rotation.y += rotationSpeed * deltaTime;
     timeBefore = elapsedTime;
   });
 
@@ -199,6 +196,81 @@ function Galaxy({
   );
 }
 
+function AsteroidBelt({ position, rotation, radius, count }) {
+  const asteroidColorMap = useLoader(TextureLoader, AsteroidMap);
+  const minAstRadius = 0.1;
+  const maxAstRadius = 10;
+  const dispersionY = 15;
+  const MaxRotationSpeed = 0.5;
+
+  const asteroidBeltRef = useRef();
+  const asteroidsRef = useRef();
+
+  const asteroidsData = useMemo(() => {
+    const data = [];
+    for (let i = 0; i < count; i++) {
+      const r = minAstRadius + Math.random() * (maxAstRadius - minAstRadius);
+      const theta = Math.random() * 2 * Math.PI;
+      const posR = radius + (Math.random() - 0.5);
+      const x = posR * Math.cos(theta);
+      const y = dispersionY * Math.random();
+      const z = posR * Math.sin(theta);
+      const rotSpeedX = MaxRotationSpeed * 2 * (Math.random() - 0.5);
+      const rotSpeedY = MaxRotationSpeed * 2 * (Math.random() - 0.5);
+      data.push({
+        radius: r,
+        position: [x, y, z],
+        rotationSpeed: { x: rotSpeedX, y: rotSpeedY },
+      });
+    }
+    return data;
+  }, [count]);
+
+  let timeBefore = 0;
+  useFrame(({ clock }) => {
+    const elapsedTime = clock.getElapsedTime();
+    const deltaTime = elapsedTime - timeBefore;
+
+    // Asteroid Belt Rotation
+    asteroidsRef.current.rotation.y += 0.2 * deltaTime;
+
+    // Individual Asteroid Rotation
+    asteroidsRef.current.children.forEach((mesh, i) => {
+      mesh.rotation.y += asteroidsData[i].rotationSpeed.y * deltaTime;
+      mesh.rotation.x += asteroidsData[i].rotationSpeed.x * deltaTime;
+    });
+    timeBefore = elapsedTime;
+  });
+
+  return (
+    <>
+      <group ref={asteroidBeltRef} position={position} rotation={rotation}>
+        <mesh ref={asteroidsRef}>
+          {asteroidsData.map((asteroid, index) => {
+            return (
+              <Sphere
+                key={index}
+                visible
+                position={asteroid.position}
+                args={[asteroid.radius, 8, 8]}
+              >
+                <MeshDistortMaterial
+                  attach="material"
+                  distort={0.5}
+                  speed={0}
+                  roughness={1}
+                  map={asteroidColorMap}
+                  color={'#cfcfcf'}
+                />
+              </Sphere>
+            );
+          })}
+        </mesh>
+      </group>
+    </>
+  );
+}
+
 function Scene() {
   let scrollY = window.scrollY;
   const { camera } = useThree();
@@ -209,24 +281,14 @@ function Scene() {
     const handleScroll = () => {
       scrollY = window.scrollY;
       camera.position.y = 4 * (-scrollY / window.innerHeight);
-      camera.position.z = FinalDistance + 50 * (scrollY / window.innerHeight);
+      camera.position.z = FinalDistance + 40 * (scrollY / window.innerHeight);
+      camera.rotation.y = 0.4 * (-scrollY / window.innerHeight);
     };
     window.addEventListener('scroll', handleScroll);
     return () => {
       window.removeEventListener('scroll', handleScroll);
     };
   }, []);
-
-  // useFrame(({ clock, camera }) => {
-  //   const elapsedTime = clock.getElapsedTime();
-  //   // Zoom animation
-  //   const r =
-  //     FinalDistance +
-  //     InitialCameraDistance * (1 - (2 * sigmoid(elapsedTime) - 1));
-  //   if (r > FinalDistance) {
-  //     camera.position.z = r;
-  //   }
-  // });
 
   const nStars = viewportWidth < 1000 ? 2000 : 5000;
   const nStarsGalaxy = viewportWidth < 1000 ? 8000 : 15000;
@@ -237,8 +299,9 @@ function Scene() {
       <Stars radius={200} depth={60} count={nStars} factor={4} saturation={0} />
       <Earth position={[0, 0, 0]} />
       <Galaxy
-        position={[2, -5, 50]}
+        position={[7, -4, 35]}
         rotation={[0.2, 0, Math.PI * 0.25]}
+        rotationSpeed={0.2}
         count={nStarsGalaxy}
         randomness={0.2}
         spin={1}
@@ -247,6 +310,12 @@ function Scene() {
         randomnessPower={3}
         insideColor={'#ff6030'}
         outsideColor={'#1b3984'}
+      />
+      <AsteroidBelt
+        position={[120, -15, 100]}
+        rotation={[0.2, 0, -Math.PI * 0.25]}
+        radius={110}
+        count={15}
       />
     </>
   );
