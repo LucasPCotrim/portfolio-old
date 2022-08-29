@@ -10,6 +10,7 @@ import {
   faUser,
   faSuitcase,
   faEnvelope,
+  faBook,
 } from '@fortawesome/free-solid-svg-icons';
 import logoNavBar from '../../assets/imgs/logoNavBar.png';
 import useMobileCheck from '../../hooks/useMobileCheck';
@@ -47,12 +48,20 @@ function PagesNavBarContainer({ setSelectedPage }) {
           setSelectedPage(2);
         }}
       >
-        <FontAwesomeIcon className="icon" icon={faSuitcase} />
+        <FontAwesomeIcon className="icon" icon={faBook} />
       </div>
       <div
         className="icon-button"
         onClick={() => {
           setSelectedPage(3);
+        }}
+      >
+        <FontAwesomeIcon className="icon" icon={faSuitcase} />
+      </div>
+      <div
+        className="icon-button"
+        onClick={() => {
+          setSelectedPage(4);
         }}
       >
         <FontAwesomeIcon className="icon" icon={faEnvelope} />

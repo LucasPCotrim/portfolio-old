@@ -1,17 +1,4 @@
-import {
-  AboutPageStyle,
-  AboutSectionStyle,
-  SkillsSectionStyle,
-  IconStyle,
-} from './AboutPage.style';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {
-  faHtml5,
-  faCss3Alt,
-  faJs,
-  faReact,
-} from '@fortawesome/free-brands-svg-icons';
-import pythonIcon from '../../assets/imgs/icons8-python.svg';
+import { AboutPageStyle, AboutSectionStyle } from './AboutPage.style';
 
 export default function AboutPage({ pageRef }) {
   return (
@@ -33,26 +20,6 @@ export default function AboutPage({ pageRef }) {
             Data Science, Artificial Intelligence and Reinforcement Learning.
           </p>
         </AboutSectionStyle>
-        <SkillsSectionStyle>
-          <h1>My Skills</h1>
-          <div className="skills-container">
-            <IconStyle color={'#e34f26'}>
-              <FontAwesomeIcon className="icon" icon={faHtml5} />
-            </IconStyle>
-            <IconStyle color={'#1572B6'}>
-              <FontAwesomeIcon className="icon" icon={faCss3Alt} />
-            </IconStyle>
-            <IconStyle color={'#F0DB4F'}>
-              <FontAwesomeIcon className="icon" icon={faJs} />
-            </IconStyle>
-            <IconStyle color={'#61DAFB'}>
-              <FontAwesomeIcon className="icon" icon={faReact} />
-            </IconStyle>
-            <IconStyle>
-              <img src={pythonIcon} alt="pythonIcon" />
-            </IconStyle>
-          </div>
-        </SkillsSectionStyle>
       </AboutPageStyle>
     </>
   );
