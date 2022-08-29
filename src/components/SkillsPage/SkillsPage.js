@@ -1,4 +1,4 @@
-import { SkillsPageStyle, Skill, IconStyle } from './SkillsPage.style';
+import { SkillsPageStyle, SkillStyle, IconStyle } from './SkillsPage.style';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faHtml5,
@@ -16,6 +16,36 @@ import figmaIcon from '../../assets/imgs/figma-icon.png';
 import gitIcon from '../../assets/imgs/git-icon.png';
 import githubIcon from '../../assets/imgs/pinned-octocat.svg';
 
+function Skill({ percentage, iconType, iconSrc, ...otherProps }) {
+  return (
+    <>
+      <SkillStyle width={percentage}>
+        <IconStyle color={otherProps.color}>
+          {iconType === 'img' ? (
+            <img src={iconSrc} alt={iconSrc} />
+          ) : (
+            <FontAwesomeIcon className="icon" icon={iconSrc} />
+          )}
+        </IconStyle>
+        <div className="skill-bar">
+          <div className="skill-level"></div>
+        </div>
+      </SkillStyle>
+    </>
+  );
+}
+
+function SkillSection({ sectionTitle, children }) {
+  return (
+    <>
+      <div className="skills-section">
+        <h1>{sectionTitle}</h1>
+        {children}
+      </div>
+    </>
+  );
+}
+
 export default function SkillsPage({ pageRef }) {
   return (
     <>
@@ -24,119 +54,25 @@ export default function SkillsPage({ pageRef }) {
           <h1>My Skills</h1>
         </div>
         <div className="skills-container">
-          <div className="skills-section">
-            <h1>Web Development</h1>
-            <Skill width={95}>
-              <IconStyle color={'#e34f26'}>
-                <FontAwesomeIcon className="icon" icon={faHtml5} />
-              </IconStyle>
-              <div className="skill-bar">
-                <div className="skill-level"></div>
-              </div>
-            </Skill>
-            <Skill width={93}>
-              <IconStyle color={'#1572B6'}>
-                <FontAwesomeIcon className="icon" icon={faCss3Alt} />
-              </IconStyle>
-              <div className="skill-bar">
-                <div className="skill-level"></div>
-              </div>
-            </Skill>
-            <Skill width={99}>
-              <IconStyle color={'#F0DB4F'}>
-                <FontAwesomeIcon className="icon" icon={faJs} />
-              </IconStyle>
-              <div className="skill-bar">
-                <div className="skill-level"></div>
-              </div>
-            </Skill>
-            <Skill width={96}>
-              <IconStyle color={'#61DAFB'}>
-                <FontAwesomeIcon className="icon" icon={faReact} />
-              </IconStyle>
-              <div className="skill-bar">
-                <div className="skill-level"></div>
-              </div>
-            </Skill>
-            <Skill width={70}>
-              <IconStyle color={'#61DAFB'}>
-                <img src={figmaIcon} alt="figmaIcon" />
-              </IconStyle>
-              <div className="skill-bar">
-                <div className="skill-level"></div>
-              </div>
-            </Skill>
-          </div>
-          <div className="skills-section">
-            <h1>Data Science</h1>
-            <Skill width={92}>
-              <IconStyle>
-                <img src={pythonIcon} alt="pythonIcon" />
-              </IconStyle>
-              <div className="skill-bar">
-                <div className="skill-level"></div>
-              </div>
-            </Skill>
-            <Skill width={55}>
-              <IconStyle>
-                <img src={tensorflowIcon} alt="tensorflowIcon" />
-              </IconStyle>
-              <div className="skill-bar">
-                <div className="skill-level"></div>
-              </div>
-            </Skill>
-            <Skill width={90}>
-              <IconStyle>
-                <img src={kerasIcon} alt="kerasIcon" />
-              </IconStyle>
-              <div className="skill-bar">
-                <div className="skill-level"></div>
-              </div>
-            </Skill>
-            <Skill width={85}>
-              <IconStyle>
-                <img src={MatplotlibIcon} alt="MatplotlibIcon" />
-              </IconStyle>
-              <div className="skill-bar">
-                <div className="skill-level"></div>
-              </div>
-            </Skill>
-            <Skill width={90}>
-              <IconStyle>
-                <img src={pandasIcon} alt="pandasIcon" />
-              </IconStyle>
-              <div className="skill-bar">
-                <div className="skill-level"></div>
-              </div>
-            </Skill>
-            <Skill width={70}>
-              <IconStyle>
-                <img src={scikitlearnIcon} alt="scikitlearnIcon" />
-              </IconStyle>
-              <div className="skill-bar">
-                <div className="skill-level"></div>
-              </div>
-            </Skill>
-          </div>
-          <div className="skills-section">
-            <h1>Version Control</h1>
-            <Skill width={90}>
-              <IconStyle color={'#e34f26'}>
-                <img src={gitIcon} alt="gitIcon" />
-              </IconStyle>
-              <div className="skill-bar">
-                <div className="skill-level"></div>
-              </div>
-            </Skill>
-            <Skill width={95}>
-              <IconStyle color={'#e34f26'}>
-                <img src={githubIcon} alt="githubIcon" />
-              </IconStyle>
-              <div className="skill-bar">
-                <div className="skill-level"></div>
-              </div>
-            </Skill>
-          </div>
+          <SkillSection sectionTitle={'Web Development'}>
+            <Skill percentage={95} iconSrc={faHtml5} color={'#e34f26'} />
+            <Skill percentage={93} iconSrc={faCss3Alt} color={'#1572B6'} />
+            <Skill percentage={99} iconSrc={faJs} color={'#F0DB4F'} />
+            <Skill percentage={96} iconSrc={faReact} color={'#61DAFB'} />
+            <Skill percentage={70} iconType={'img'} iconSrc={figmaIcon} />
+          </SkillSection>
+          <SkillSection sectionTitle={'Data Science'}>
+            <Skill percentage={92} iconType={'img'} iconSrc={pythonIcon} />
+            <Skill percentage={55} iconType={'img'} iconSrc={tensorflowIcon} />
+            <Skill percentage={90} iconType={'img'} iconSrc={kerasIcon} />
+            <Skill percentage={85} iconType={'img'} iconSrc={MatplotlibIcon} />
+            <Skill percentage={90} iconType={'img'} iconSrc={pandasIcon} />
+            <Skill percentage={70} iconType={'img'} iconSrc={scikitlearnIcon} />
+          </SkillSection>
+          <SkillSection sectionTitle={'Version Control'}>
+            <Skill percentage={98} iconType={'img'} iconSrc={gitIcon} />
+            <Skill percentage={90} iconType={'img'} iconSrc={githubIcon} />
+          </SkillSection>
         </div>
       </SkillsPageStyle>
     </>

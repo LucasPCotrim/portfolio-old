@@ -46,7 +46,7 @@ export const SkillsPageStyle = styled(PageStyle)`
   }
 `;
 
-export const Skill = styled.div`
+export const SkillStyle = styled.div`
   width: 100%;
   height: 60px;
   display: flex;
