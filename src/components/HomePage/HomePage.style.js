@@ -15,7 +15,7 @@ const animateFadeIn = keyframes`
 export const HomePageStyle = styled(PageStyle)`
   .title-container {
     display: inline-block;
-    margin-left: 40px;
+    margin-left: 50px;
     margin-top: 200px;
     width: 80%;
     color: var(--color-title);
