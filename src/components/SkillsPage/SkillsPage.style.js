@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled, { keyframes } from 'styled-components';
 import { PageStyle } from '../../global/GlobalStyle';
 
 export const SkillsPageStyle = styled(PageStyle)`
@@ -46,6 +46,15 @@ export const SkillsPageStyle = styled(PageStyle)`
   }
 `;
 
+const animateSkill = keyframes`
+  0% {
+    transform: scaleX(0);
+  }
+  100% {
+    transform: scaleX(1);
+  }
+`;
+
 export const SkillStyle = styled.div`
   width: 100%;
   height: 60px;
@@ -60,12 +69,19 @@ export const SkillStyle = styled.div`
     position: relative;
     overflow: hidden;
     .skill-level {
+      transform: scaleX(0);
+      transform-origin: left;
       position: absolute;
       top: -1px;
       left: -1px;
       height: 10px;
       width: calc(${(props) => props.width}% + 1px);
       background-color: var(--color-palette-1);
+    }
+    .skill-animation {
+      animation-name: ${animateSkill};
+      animation-duration: 1s;
+      animation-fill-mode: forwards;
     }
   }
   @media (max-width: 1000px) {

@@ -1,4 +1,5 @@
 import { SkillsPageStyle, SkillStyle, IconStyle } from './SkillsPage.style';
+import { useInView } from 'react-intersection-observer';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faHtml5,
@@ -17,9 +18,10 @@ import gitIcon from '../../assets/imgs/git-icon.png';
 import githubIcon from '../../assets/imgs/pinned-octocat.svg';
 
 function Skill({ percentage, iconType, iconSrc, ...otherProps }) {
+  const { ref: skillRef, inView: skillIsVisible } = useInView();
   return (
     <>
-      <SkillStyle width={percentage}>
+      <SkillStyle ref={skillRef} width={percentage}>
         <IconStyle color={otherProps.color}>
           {iconType === 'img' ? (
             <img src={iconSrc} alt={iconSrc} />
@@ -28,7 +30,9 @@ function Skill({ percentage, iconType, iconSrc, ...otherProps }) {
           )}
         </IconStyle>
         <div className="skill-bar">
-          <div className="skill-level"></div>
+          <div
+            className={`skill-level ${skillIsVisible ? 'skill-animation' : ''}`}
+          ></div>
         </div>
       </SkillStyle>
     </>
